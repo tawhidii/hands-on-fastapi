@@ -26,9 +26,15 @@ def get_all_user(db: Session = Depends(get_db)):
 def get_user_by_id(id:int, db: Session = Depends(get_db)):
   return db_user.get_user_by_id(db,id)
 
-
-
-
 # Update user
 
+@router.put('/{id}/update')
+def get_user_by_id(id:int, request: UserBase,db: Session = Depends(get_db)):
+  return db_user.update_user(db,id,request)
+  
 # Delete user
+@router.delete('/{id}/delete')
+def delte_user(id:int, db: Session = Depends(get_db)):
+  return db_user.delete_user(db,id)
+  
+

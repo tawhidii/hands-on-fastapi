@@ -2,6 +2,7 @@ from db.hash import Hash
 from sqlalchemy.orm.session import Session
 from schemas import UserBase
 from db.models import DbUser
+from sqlalchemy import delete
 
 
 def create_user(db: Session, request: UserBase):
@@ -22,3 +23,24 @@ def get_all_users(db:Session):
 
 def get_user_by_id(db:Session,id:int):
   return db.query(DbUser).filter(DbUser.id == id).first()
+
+def update_user(db:Session,id:int,request:UserBase):
+  user = db.query(DbUser).filter(DbUser.id == id)
+  user.update({
+    DbUser.username: request.username,
+    DbUser.email: request.email,
+    DbUser.password: Hash.bcrypt(request.password)
+  })
+  db.commit()
+  return {'message': 'User updated !'}
+
+def delete_user(db: Session,id:int):
+  user = db.query(DbUser).filter(DbUser.id == id).first()
+  db.delete(user)
+  db.commit()
+
+  return {'message': 'User deleted !'}
+
+
+
+

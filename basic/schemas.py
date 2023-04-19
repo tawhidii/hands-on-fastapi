@@ -17,6 +17,10 @@ class UserBase(BaseModel):
   password: str
 
 
+class UserResopnse(BaseModel):
+  username: str
+  email: str
+
 
 class UserDisplay(BaseModel):
   username: str
